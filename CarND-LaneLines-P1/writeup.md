@@ -73,6 +73,9 @@ Roi image:
 Masked edges and roi image:
 ![alt text][masked_edges_image]
 
+Lanes image:
+![alt text][lanes_image]
+
 Masked lanes and roi image:
 ![alt text][masked_lanes_image]
 
