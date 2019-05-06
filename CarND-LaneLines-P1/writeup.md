@@ -1,7 +1,7 @@
 # **Finding Lane Lines on the Road** 
 
 ** Solution by luk6xff (April 2019)
-** [My solution file](P1-SOLUTION.md)
+** [My solution notebook](P1-SOLUTION.ipynb)
 
 ## Writeup 
 
@@ -18,14 +18,14 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [input_image]: ./pipeline_steps_images/input_image.jpg "input_image"
-[gray]: ./pipeline_steps_images/gray.jpg "gray"
-[blur]: ./pipeline_steps_images/blur.jpg "blur"
-[edges]: ./pipeline_steps_images/edges.jpg "edges"
-[roi]: ./pipeline_steps_images/roi.jpg "roi"
-[masked_edges]: ./pipeline_steps_images/masked_edges.jpg "masked_edges"
+[gray_image]: ./pipeline_steps_images/gray.jpg "gray"
+[blur_image]: ./pipeline_steps_images/blur.jpg "blur"
+[edges_image]: ./pipeline_steps_images/edges.jpg "edges"
+[roi_image]: ./pipeline_steps_images/roi.jpg "roi"
+[masked_edges_image]: ./pipeline_steps_images/masked_edges.jpg "masked_edges"
 [lanes_image]: ./pipeline_steps_images/lanes_image.jpg "lanes_image"
-[masked_lanes_img]: ./pipeline_steps_images/masked_lanes_img.jpg "masked_lanes_img"
-[final_img]: ./pipeline_steps_images/final_img.jpg "final_img"
+[masked_lanes_image]: ./pipeline_steps_images/masked_lanes_img.jpg "masked_lanes_img"
+[final_image]: ./pipeline_steps_images/final_img.jpg "final_img"
 
 ---
 
@@ -55,14 +55,29 @@ The main steps of ```line_detection_process_image``` function:
 
 Below you can see all the steps being done by ```line_detection_process_image``` function:
 
+Input image:
 ![alt text][input_image]
-![alt text][gray]
-![alt text][blur]
-![alt text][edges]
-![alt text][roi]
-![alt text][masked_edges]
-![alt text][masked_lanes_img]
-![alt text][final_img]
+
+Grayscale image:
+![alt text][gray_image]
+
+Blur image:
+![alt text][blur_image]
+
+Edges image:
+![alt text][edges_image]
+
+Roi image:
+![alt text][roi_image]
+
+Masked edges and roi image:
+![alt text][masked_edges_image]
+
+Masked lanes and roi image:
+![alt text][masked_lanes_image]
+
+Final image:
+![alt text][final_image]
 
 
 ### 2. Identify potential shortcomings with your current pipeline
