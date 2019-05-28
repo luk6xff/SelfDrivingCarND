@@ -1,6 +1,6 @@
 # **Advanced Lane Finding Project** 
 
-** Solution by luk6xff (April 2019)
+** Solution by luk6xff (May 2019)
 ** [My solution notebook](P2-SOLUTION.ipynb)
 
 ## Writeup 
@@ -25,11 +25,13 @@ The goals / steps of this project are the following:
 
 [image0]: ./output_images/distorted_image.png "Distorted"
 [image1]: ./output_images/undistorted_image.png "Undistorted"
-[image2]: ./output_images/test1.jpg "Road Transformed"
+[image2]: ./test_images/test1.jpg "Road Transformed"
 [image3]: ./output_images/undistorted_threshlded_image.png "Binary thresholded image"
-[image4]: ./output_images/Undistorted_with_ROI.png "Perspective transform"
-[image5]: ./output_images/Undistorted_and_transformed_image.png. "Transformed_image"
-[image6]: ./output_images/example_output.jpg "Output"
+[image4]: ./output_images/undistorted_with_ROI.png "Perspective transform"
+[image5]: ./output_images/undistorted_and_transformed_image.png "Transformed_image"
+[image6]: ./output_images/sliding_windows.png "Sliding windows method"
+[image7]: ./output_images/polynomial_line.png "Polynomial line (yellow)"
+[image8]: ./output_images/back_projected.png "Back projected image"
 [video1]: ./project_video.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
@@ -64,10 +66,12 @@ using the `cv2.undistort()` function and obtained this result:
 To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
 ![alt text][image2]
 
+
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
 I used a combination of color and gradient thresholds to generate a binary image (implemented in function `apply_threshold`.  Here's an example of my output for this step.
 ![alt text][image3]
+
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
@@ -97,20 +101,43 @@ I verified that my perspective transform was working as expected by drawing the 
 and its warped counterpart to verify that the lines appear parallel in the warped image.
 ![alt text][image5]
 
+
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
-
+With no prior information on where the lines are in the image I implemented a method `find_lane_coarse` to extract lane pixels position. I first search for the peaks of the image histogram done along all the columns in the lower half of the image. I expected two peaks in the histogram (left and right lanes). When the peaks have been identified I applied a window around each peak to accumulate all the pixels from the left and right lanes. The rest of the lane pixels is being gathered by sliding the windows upwards and modyfying their position as a function of pixel count within the given window to follow the curvature of the lane. The described method returns coordinates of pixels for two lanes.
 ![alt text][image6]
+
+Now that we have found all our pixels belonging to each line through the sliding window method, I fit a second order polynomial to the line.
+
+Once I know where the lines are in one frame of video, I can easily do much faster search on subsequent images by searching within the computed polynomial line of the curve as was implemented in method `find_lane_fine`.
+![alt text][image7]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines # through # in my code in `my_other_file.py`
+A radius of curvature of the lane has been computed in the following way where x and y are coordinates of pixels that fall on the lane boundary. 
+
+Qe fit a second order polynomial mapping $x = f(y)$ of the form:
+
+$x = Ay^2 + By + C$
+
+The radius of curvature $r_{curve}$ at any point $x$ on the above mapping is given by
+
+$r_{curve} = \frac{[1 + (\frac{dx}{dy})^2]^\frac{3}{2}}{|\frac{d^2x}{dy^2}|}$
+
+where
+
+$\frac{dx}{dy} = 2Ay + B$
+
+and
+
+$\frac{d^2x}{dy^2} = 2A$
+
+The offset to center of the lane is being computed as the difference between the location of the vertical centerline in the image and the middle point of the extracted lane lines.
+
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
-
+The lanes identified in the top view are back-projected into the original undistorted camera image by using the inverse of the projection matrix as was implemented in method `back_projection`
 ![alt text][image7]
 
 ---
@@ -119,7 +146,7 @@ I implemented this step in lines # through # in my code in `yet_another_file.py`
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./project_video_output.mp4)
 
 ---
 
@@ -127,4 +154,5 @@ Here's a [link to my video result](./project_video.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+The most difficult part of this project was finding and extracting lanes from the images. My piepline is probably not good enough for searching lanes on higly lighted roads, where there is no visible lines on the road etc.
+The weakest point of this solution is done by thresholding the input image. I had to find some const thresholds which when poorly chosen can escalate on the quality of the rest of pipeline.
