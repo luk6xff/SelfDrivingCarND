@@ -106,3 +106,4 @@ venv.bak/
 # tars
 *.gz
 *.zip
+*.ckpt*
