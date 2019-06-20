@@ -98,8 +98,9 @@ The goals / steps of this project are the following:
 [image5_1]: ./plots/Learning%20Curve%20-%20errors.png "Learning Curve - errors"
 [image6]: ./plots/New%20test%20sign%20images%20set.png "New test sign images set"
 [image7]: ./plots/Visualization%20of%20softmax%20probabilities%20for%20each%20example.png "Visualization of softmax probabilities for each example"
-[image8_0]: ./plots/Feature%20map%201.png "Feature map 1"
-[image8_1]: ./plots/Feature%20map%202.png "Feature map 2"
+[image8_0]: ./plots/Random%20image.png "Random image"
+[image8_1]: ./plots/Feature%20map%201.png "Feature map 1"
+[image8_2]: ./plots/Feature%20map%202.png "Feature map 2"
 
 ## Rubric Points
 Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation. The code and implementation can be found in my [project code](https://github.com/luk6xff/SelfDrivingCarND/blob/master/CarND-Traffic-Sign-Classifier-P3/Traffic_Sign_Classifier.ipynb) 
@@ -287,12 +288,15 @@ A visualization chart of softmax probabilities:
 As you can observe the biggest problem was to recognize `No vehicles sign`. The third prediction for it was about 8% and it was applied for `Speed limit (50km/h)` which is not even close to the correct sign. I think that the reason of this problem is the noise we can observe on the white part of the sign after preprocessing which might be similar to numbers on speed limit signs. 
 
 ### Visualization of feature Maps
-#### **Convolution Layer 1 feature maps**
+#### **Random image**
 ![alt text][image8_0]
+
+#### **Convolution Layer 1 feature maps**
+![alt text][image8_1]
 As seen from the visualization, the first convolutional layer picks up the basic shapes such as edges from the image. We can also observe that colors are also extracted in this layer.
 
 #### **Convolution Layer 2 feature maps**
-![alt text][image8_1]
+![alt text][image8_2]
 As seen from the output of the second convolutional layer which seems to picking up from on the output of first layer and trying to recognize pixel blobs (traingle shapes in whole)
 
 
