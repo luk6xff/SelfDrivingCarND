@@ -87,19 +87,19 @@ The goals / steps of this project are the following:
 [image1_24]: ./plots/Random_samples_of_German_traffic_sign_dataset-class-id-24.png "Input data"
 [image1_37]: ./plots/Random_samples_of_German_traffic_sign_dataset-class-id-37.png "Input data"
 [image1_41]: ./plots/Random_samples_of_German_traffic_sign_dataset-class-id-41.png "Input data"
-[image2_0]: ./plots/Histogram of label frequency in TRAINING set.png "Histogram of label frequency in TRAINING set"
-[image2_1]: ./plots/Histogram of label frequency in VALIDATION set.png "Histogram of label frequency in VALIDATION set"
-[image2_2]: ./plots/Histogram of label frequency in TEST set.png "Histogram of label frequency in TEST set"
-[image3_0]: ./plots/Original, not normalized samples of German traffic sign dataset.png
-[image3_1]: ./plots/Normalized samples of German traffic sign dataset.png
-[image4_0]: ./plots/A few augmented, normalized samples of German traffic sign dataset.png "A few augmented, normalized samples of German traffic sign dataset"
-[image4_1]: ./plots/Histogram of label frequency in final TRAINING set.png "Histogram of label frequency in final TRAINING set"
-[image5_0]: ./plots/Learning Curve - accuracy.png "Learning Curve - accuracy"
-[image5_1]: ./plots/Learning Curve - errors.png "Learning Curve - errors"
-[image6]: ./plots/New test sign images set.png "New test sign images set"
-[image7]: ./plots/Visualization of softmax probabilities for each example.png "Visualization of softmax probabilities for each example"
-[image8_0]: ./plots/Feature map 1.png "Feature map 1"
-[image8_1]: ./plots/Feature map 2.png "Feature map 2"
+[image2_0]: ./plots/Histogram%20of%20label%20frequency%20in%20TRAINING%20set.png "Histogram of label frequency in TRAINING set"
+[image2_1]: ./plots/Histogram%20of%20label%20frequency%20in%20VALIDATION%20set.png "Histogram of label frequency in VALIDATION set"
+[image2_2]: ./plots/Histogram%20of%20label%20frequency%20in%20TEST%20set.png "Histogram of label frequency in TEST set"
+[image3_0]: ./plots/Original,%20not%20normalized%20samples%20of%20German%20traffic%20sign%20dataset.png
+[image3_1]: ./plots/Normalized%20samples%20of%20German%20traffic%20sign%20dataset.png
+[image4_0]: ./plots/A%20few%20augmented,%20normalized%20samples%20of%20German%20traffic%20sign%20dataset.png "A few augmented, normalized samples of German traffic sign dataset"
+[image4_1]: ./plots/Histogram%20of%20label%20frequency%20in%20final%20TRAINING%20set.png "Histogram of label frequency in final TRAINING set"
+[image5_0]: ./plots/Learning%20Curve%20-%20accuracy.png "Learning Curve - accuracy"
+[image5_1]: ./plots/Learning%20Curve%20-%20errors.png "Learning Curve - errors"
+[image6]: ./plots/New%20test%20sign%20images%20set.png "New test sign images set"
+[image7]: ./plots/Visualization%20of%20softmax%20probabilities%20for%20each%20example.png "Visualization of softmax probabilities for each example"
+[image8_0]: ./plots/Feature%20map%201.png "Feature map 1"
+[image8_1]: ./plots/Feature%20map%202.png "Feature map 2"
 
 ## Rubric Points
 Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation. The code and implementation can be found in my [project code](https://github.com/luk6xff/SelfDrivingCarND/blob/master/CarND-Traffic-Sign-Classifier-P3/Traffic_Sign_Classifier.ipynb) 
@@ -249,35 +249,35 @@ The code for making predictions on my final model is located in the 21th cell of
 
 A list of top_k = 3 probabilities for each image:
 
-Top 3 model predictions for IMAGE:0 (Target is 01 [Speed limit (30km/h)])
-   Prediction = 01 [Speed limit (30km/h)] with certainty 0.59
-   Prediction = 40 [Roundabout mandatory] with certainty 0.24
-   Prediction = 02 [Speed limit (50km/h)] with certainty 0.06
+* Top 3 model predictions for IMAGE:0 (Target is 01 [Speed limit (30km/h)])  
+   Prediction = 01 [Speed limit (30km/h)] with certainty 0.59  
+   Prediction = 40 [Roundabout mandatory] with certainty 0.24  
+   Prediction = 02 [Speed limit (50km/h)] with certainty 0.06  
 
-Top 3 model predictions for IMAGE:1 (Target is 22 [Bumpy road])
-   Prediction = 22 [Bumpy road] with certainty 1.00
-   Prediction = 26 [Traffic signals] with certainty 0.00
-   Prediction = 29 [Bicycles crossing] with certainty 0.00
+* Top 3 model predictions for IMAGE:1 (Target is 22 [Bumpy road])  
+   Prediction = 22 [Bumpy road] with certainty 1.00  
+   Prediction = 26 [Traffic signals] with certainty 0.00  
+   Prediction = 29 [Bicycles crossing] with certainty 0.00  
 
-Top 3 model predictions for IMAGE:2 (Target is 35 [Ahead only])
-   Prediction = 35 [Ahead only] with certainty 1.00
-   Prediction = 34 [Turn left ahead] with certainty 0.00
-   Prediction = 37 [Go straight or left] with certainty 0.00
+* Top 3 model predictions for IMAGE:2 (Target is 35 [Ahead only])  
+   Prediction = 35 [Ahead only] with certainty 1.00  
+   Prediction = 34 [Turn left ahead] with certainty 0.00  
+   Prediction = 37 [Go straight or left] with certainty 0.00  
 
-Top 3 model predictions for IMAGE:3 (Target is 15 [No vehicles])
-   Prediction = 05 [Speed limit (80km/h)] with certainty 0.47
-   Prediction = 07 [Speed limit (100km/h)] with certainty 0.45
-   Prediction = 02 [Speed limit (50km/h)] with certainty 0.08
+* Top 3 model predictions for IMAGE:3 (Target is 15 [No vehicles])  
+   Prediction = 05 [Speed limit (80km/h)] with certainty 0.47  
+   Prediction = 07 [Speed limit (100km/h)] with certainty 0.45  
+   Prediction = 02 [Speed limit (50km/h)] with certainty 0.08  
 
-Top 3 model predictions for IMAGE:4 (Target is 37 [Go straight or left])
-   Prediction = 37 [Go straight or left] with certainty 0.95
-   Prediction = 40 [Roundabout mandatory] with certainty 0.02
-   Prediction = 33 [Turn right ahead] with certainty 0.01
+* Top 3 model predictions for IMAGE:4 (Target is 37 [Go straight or left])  
+   Prediction = 37 [Go straight or left] with certainty 0.95  
+   Prediction = 40 [Roundabout mandatory] with certainty 0.02  
+   Prediction = 33 [Turn right ahead] with certainty 0.01  
 
-Top 3 model predictions for IMAGE:5 (Target is 18 [General caution])
-   Prediction = 18 [General caution] with certainty 1.00
-   Prediction = 27 [Pedestrians] with certainty 0.00
-   Prediction = 26 [Traffic signals] with certainty 0.00
+* Top 3 model predictions for IMAGE:5 (Target is 18 [General caution])  
+   Prediction = 18 [General caution] with certainty 1.00  
+   Prediction = 27 [Pedestrians] with certainty 0.00  
+   Prediction = 26 [Traffic signals] with certainty 0.00  
 
 
 A visualization chart of softmax probabilities:
