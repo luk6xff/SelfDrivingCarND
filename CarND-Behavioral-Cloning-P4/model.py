@@ -12,6 +12,7 @@ import skimage
 import csv
 import scipy
 import copy
+import pickle
 
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
@@ -19,7 +20,7 @@ from random import shuffle
 from tqdm import tqdm
 
 # Visualizations will be shown in the notebook.
-%matplotlib inline
+#%matplotlib inline
 
 # Some globals
 DATA_FOLDER_PATH = './data'
@@ -46,9 +47,11 @@ def load_image(filename):
     return cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
 
 
+#===============================================================================================
 def preprocess_image(img, top_crop_percent=0.35, bottom_crop_percent=0.15,
                        resize_dim=(64, 64)):
-    # img = crop_image(img, top_crop_percent, bottom_crop_percent) # Cropping will be done in cropping step in network layer
+    # Empty Cropping and normalization will be done in cropping and lambda steps in network layer
+    # img = crop_image(img, top_crop_percent, bottom_crop_percent)
     # img = resize_image(img, resize_dim)
     return img
 
@@ -115,7 +118,17 @@ def generate_batch(samples, batch_size=32):
 
 
 
-
+# Test the batch generator
+test_num = 2
+batch_size=8
+for i in range(test_num):
+    images, angles = next(generate_batch(samples, batch_size=batch_size))
+    print('Batch:', i,', num images: ', len(images), ', num angles:', len(angles))
+    # plot_images(images, angles, rows=8, cols=6, figsize=(20,25))
+    
+# Set image sizes
+img_height, img_width, img_channels = images[0].shape
+print('Images shape: ', 'HEIGHT: {}'.format(img_height), 'WIDTH: {}'.format(img_width), 'CHANNELS: {}'.format(img_channels)) 
 
 
 # Split data into training and validation datasets
@@ -126,18 +139,18 @@ print("Number of validation samples: {}".format(len(validation_samples)))
 
 
 
-
-
-
+#===============================================================================================
 # Define network
 # We implement CNN architecture from the nvidia paper with a few modifications 
-# (added relu activations, max-pooling and drop-outs)
+# (added elu activations, max-pooling and drop-outs)
 
 from keras.models import Sequential
 from keras.layers import Cropping2D
 from keras.layers.core import Lambda, Dense, Activation, Flatten, Dropout
 from keras.layers.convolutional import Convolution2D
 from keras.layers.pooling import MaxPooling2D
+from keras.models import load_model
+from keras.callbacks import ModelCheckpoint
 
 # generate the neural network
 model = Sequential()
@@ -145,78 +158,65 @@ model = Sequential()
 
 # Preprocess incoming data, centered around zero with small standard deviation 
 model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=(img_height, img_width, img_channels)))
-#model.add(Lambda(lambda x: x/127.5 - 1.))
 
 # Crop image to see only a road
 model.add(Cropping2D(cropping=((60,20), (0,0)), input_shape=(img_height, img_width, img_channels)))
 
-# # Layer 1- Convolution, number of filters- 24, filter size= 5x5, stride= 2x2
-# model.add(Convolution2D(24, 5, 5, activation=None, subsample=(1,1)))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-
-# # Layer 2- Convolution, no of filters- 36, filter size= 5x5, stride= 2x2
-# model.add(Convolution2D(36, 5, 5, activation=None, subsample=(1,1)))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-
-# # Layer 3- Convolution, no of filters- 48, filter size= 5x5, stride= 2x2
-# model.add(Convolution2D(48, 5, 5, activation='relu', subsample=(2,2)))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-# model.add(Convolution2D(64, 3, 3, activation='relu', subsample=(1,1)))
-# model.add(Convolution2D(64, 3, 3, activation='relu', subsample=(1,1)))
-# model.add(Flatten())
-# model.add(Dropout(0.5))
-# model.add(Dense(100))
-# model.add(Dense(50))
-# model.add(Dense(10))
-# model.add(Dense(1))
-
-#layer 1- Convolution, no of filters- 24, filter size= 5x5, stride= 2x2
-model.add(Convolution2D(24,5,5,subsample=(2,2)))
+# Layer 1 - Convolution, no of filters- 24, filter size= 5x5, stride= 2x2
+model.add(Convolution2D(24, (5,5), strides=(2,2)))
 model.add(Activation('elu'))
 
-#layer 2- Convolution, no of filters- 36, filter size= 5x5, stride= 2x2
-model.add(Convolution2D(36,5,5,subsample=(2,2)))
+# Layer 2 - Convolution, no of filters- 36, filter size= 5x5, stride= 2x2
+model.add(Convolution2D(36, (5,5), strides=(2,2)))
 model.add(Activation('elu'))
 
-#layer 3- Convolution, no of filters- 48, filter size= 5x5, stride= 2x2
-model.add(Convolution2D(48,5,5,subsample=(2,2)))
+# Layer 3 - Convolution, no of filters- 48, filter size= 5x5, stride= 2x2
+model.add(Convolution2D(48,(5,5), strides=(2,2)))
 model.add(Activation('elu'))
 
-#layer 4- Convolution, no of filters- 64, filter size= 3x3, stride= 1x1
-model.add(Convolution2D(64,3,3))
+# Layer 4 - Convolution, no of filters- 64, filter size= 3x3, stride= 1x1
+model.add(Convolution2D(64, (3,3)))
 model.add(Activation('elu'))
 
-#layer 5- Convolution, no of filters- 64, filter size= 3x3, stride= 1x1
-model.add(Convolution2D(64,3,3))
+# Layer 5 - Convolution, no of filters- 64, filter size= 3x3, stride= 1x1
+model.add(Convolution2D(64, (3,3)))
 model.add(Activation('elu'))
 
-#flatten image from 2D to side by side
+# Flatten image from 2D to side by side
 model.add(Flatten())
 
-#layer 6- fully connected layer 1
+# Layer 6 - Fully connected layer 1
 model.add(Dense(100))
 model.add(Activation('elu'))
 
-#Adding a dropout layer to avoid overfitting. Here we are have given the dropout rate as 25% after first fully connected layer
+# Adding a dropout layer to avoid overfitting.
 model.add(Dropout(0.25))
 
-#layer 7- fully connected layer 1
+# Layer 7 - fully connected layer 1
 model.add(Dense(50))
 model.add(Activation('elu'))
 
-
-#layer 8- fully connected layer 1
+# Layer 8 - fully connected layer 1
 model.add(Dense(10))
 model.add(Activation('elu'))
 
-#layer 9- fully connected layer 1
+# Layer 9 - fully connected layer 1
 model.add(Dense(1)) #here the final layer will contain one value as this is a regression problem and not classification
 
-# print a summary of the NN
+# Print a summary of the NN
 model.summary()
 
+
+
+
+
 #===============================================================================================
-# compile and train the model using the generator function
+# checkpoint
+checkpoint = ModelCheckpoint("model-{epoch:02d}.h5", monitor='loss', verbose=1, save_best_only=False, mode='max')
+callbacks_list = [checkpoint]
+
+#===============================================================================================
+# Compile and train the model using the generator function
 EPOCHS = 5
 BATCH_SIZE = 32
 
@@ -224,6 +224,14 @@ train_generator = generate_batch(training_samples, batch_size=BATCH_SIZE)
 valid_generator = generate_batch(validation_samples, batch_size=BATCH_SIZE)
 
 model.compile(loss='mse', optimizer='adam')
+
+# Restore saved models paths
+saved_models_paths = glob.glob('model-*.h5')
+print(saved_models_paths)
+if len(saved_models_paths) > 0:
+    print("Restoring latest checkpoint: {} for training".format(saved_models_paths[-1]))
+    model = load_model(saved_models_paths[-1])
+
 history = model.fit_generator(train_generator, samples_per_epoch=len(training_samples), 
                     validation_data=valid_generator, nb_val_samples=len(validation_samples), 
                     nb_epoch=EPOCHS)
@@ -233,3 +241,7 @@ history = model.fit_generator(train_generator, samples_per_epoch=len(training_sa
 from keras.models import load_model
 model.save("./model.h5")
 print("Saved model to disk")
+
+# Save the history
+hist_history = history.history
+pickle.dump(hist_history, open("hist_history.p", "wb"))
