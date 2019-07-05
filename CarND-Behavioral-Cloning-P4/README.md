@@ -299,17 +299,17 @@ _________________________________________________________________
 
 #### 3. Creation of the Training Set & Training Process
 To load data I used OpenCV to load the images, by default the images are read by OpenCV in BGR format but we need to convert to RGB as in drive.py it is processed in RGB format.
-I noticed that steering angles sample data has a huge peak around 0 as shown below: which means that the model may have a bias to go straight. If we include the left and right cameras with an steering angle offset, this can fix the problem.
-![alt text][image1]
+I noticed that steering angles sample data has a huge peak around 0 as shown in picture below, which means that the model may have a bias to go straight. If we include the left and right cameras with an steering angle offset, this can fix the problem.
+![alt text][image1]  
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
-![alt text][image2]
+![alt text][image2]  
 
 Normalization and cropping of the image is done in Network layers (Lambda, Cropping).
 
 Then I repeated this process on track two in order to get more data points.  
 To augment the data sat, I also flipped images and angles. In augmenting after flipping multiply the steering angle by a factor of -1 to get the steering angle for the flipped image. For example, here is a set of normal and flipped images:
-![alt text][image4]
+![alt text][image4]  
 
 I used a generator to generate the data so as to avoid loading all the images in the memory and instead generate it at the run time in batches of 32. Even Augmented images are generated inside the generators.  
 
@@ -327,14 +327,14 @@ Model parameter tuning:
 * Correction factor- 0.2
 * Loss Function Used- MSE(Mean Squared Error as it is efficient for regression problem).
 
-## Outcome
+### Outcome
 
 The model can drive on the track 1 without any problem. It does not work well for track 2.
 
-- [Track 1](./run_track1)
-- [Track 2](./run_track2)
+- [Track 1](run_track1.mp4)
+- [Track 2](run_track2.mp4)
 
 
-## References
+### References
 - NVIDIA model: https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/
 - Udacity Self-Driving Car Simulator: https://github.com/udacity/self-driving-car-sim
