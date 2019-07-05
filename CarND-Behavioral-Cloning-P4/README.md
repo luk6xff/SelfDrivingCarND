@@ -166,7 +166,7 @@ My project includes the following files:
 * model.py containing the script to create and train the model
 * drive.py for driving the car in autonomous mode
 * model.h5 containing a trained convolution neural network
-* model.ipynb python notebook containing the code to create and train the model
+* P4_SOLUTION.ipynb python notebook containing the code to create and train the model
 * README.md (section Writeup) summarizing the results
 
 #### 2. Submission includes functional code
@@ -299,8 +299,9 @@ _________________________________________________________________
 
 #### 3. Creation of the Training Set & Training Process
 To load data I used OpenCV to load the images, by default the images are read by OpenCV in BGR format but we need to convert to RGB as in drive.py it is processed in RGB format.
-I noticed that steering angles sample data has a huge peak around 0 as shown in picture below, which means that the model may have a bias to go straight. If we include the left and right cameras with an steering angle offset, this can fix the problem.
-![alt text][image1]  
+I noticed that steering angles sample data has a huge peak around 0 as shown in picture below, which means that the model may have a bias to go straight. 
+If we include the left and right cameras with an steering angle offset, this can fix the problem
+![alt text][image1]
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 ![alt text][image2]  
@@ -318,7 +319,8 @@ and number of validation samples: 2935 (20%).
 
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting.
-Model parameter tuning:
+
+#### Finally used Model tuning parameter:
 * No of epochs= 5
 * Optimizer Used- Adam
 * Learning Rate- Default 0.001
