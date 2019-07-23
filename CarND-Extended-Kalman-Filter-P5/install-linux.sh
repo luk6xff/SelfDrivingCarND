@@ -23,3 +23,7 @@ sudo make install
 cd ../..
 sudo ln -s /usr/lib64/libuWS.so /usr/lib/libuWS.so
 sudo rm -r uWebSockets
+
+# Download Term2 simulator
+curl -LJO https://github.com/udacity/self-driving-car-sim/releases/download/v1.45/term2_sim_linux.zip
+unzip term2_sim_linux.zip
