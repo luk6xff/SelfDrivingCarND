@@ -25,3 +25,6 @@ ide_profiles/xcode/ExtendedKF.build/
 
 # zip
 *.zip
+
+# Simulator
+term2_sim_linux/
