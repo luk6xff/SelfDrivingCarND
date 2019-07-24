@@ -98,7 +98,5 @@ for instructions and the project rubric.
 
 ## Result track
 
-That's how my prediction track looks like :) 
-[final_track_img]: ./data/final-track.png "Final track image"
-
-![alt text][final_track_img]
+That's how my final prediction track looks like :) 
+![alt text](./data/final-track.png)
