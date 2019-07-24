@@ -35,6 +35,12 @@ class KalmanFilter {
   void Predict();
 
   /**
+  * General kalman filter update operations
+  * @param y the update prediction error
+  */
+  void UpdateRoutine(const Eigen::VectorXd &y);
+
+  /**
    * Updates the state by using standard Kalman Filter equations
    * @param z The measurement at k+1
    */

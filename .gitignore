@@ -107,3 +107,6 @@ venv.bak/
 *.gz
 *.zip
 *.ckpt*
+
+# vscode
+.vscode/
